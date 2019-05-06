@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">base</string>
+    <string name="debug">--</string>
+    <string name="unknown">未知</string>
+    <string name="find_select_browser">选择浏览器</string>
+    <string name="please_no_application">没有匹配的程序</string>
+</resources>

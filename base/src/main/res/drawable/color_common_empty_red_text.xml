@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:color="@color/color_primary_red_focusable" android:state_selected="true"/>
+    <item android:color="@color/color_primary_btn_enable" android:state_enabled="false"/>
+    <item android:color="@color/color_primary_red_normal"/>
+</selector>

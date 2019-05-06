@@ -1,0 +1,26 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" >
+
+    </style>
+
+    <!-- Activity 切换动画 -->
+    <style name="Activity.Animation" parent="@android:style/Animation">
+
+    </style>
+
+    <style name="AppThemeFullScreen" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <!--<item name="android:windowFullscreen">true</item>-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="OverflowMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">5dp</item>
+        <item name="android:dropDownHorizontalOffset">0dp</item>
+    </style>
+
+</resources>

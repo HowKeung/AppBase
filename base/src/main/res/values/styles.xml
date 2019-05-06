@@ -1,0 +1,326 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_primary_background</item><!-- 导航栏颜色 -->
+        <item name="colorPrimaryDark">@color/color_primary_background</item><!-- 通知栏颜色 -->
+        <item name="colorAccent">@color/color_primary_background</item><!-- 控件选中后颜色 -->
+        <item name="actionMenuTextColor">@color/color_primary_text_highlight</item>
+        <item name="android:textColorPrimary">@color/color_primary_text_highlight</item>
+        <item name="android:windowAnimationStyle">@style/Base.Activity.Animation</item>
+        <item name="android:buttonStyle">?android:attr/borderlessButtonStyle</item>
+        <item name="actionOverflowMenuStyle">@style/Base.OverflowMenuStyle</item>
+        <item name="colorControlNormal">@color/color_primary_text_highlight
+        </item><!-- Toolbar返回按钮颜色 -->
+    </style>
+
+    <!-- Activity 切换动画 -->
+    <style name="Base.Activity.Animation" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
+    </style>
+
+    <style name="Base.AppThemeFullScreen" parent="Base.AppTheme">
+        <item name="windowActionBar">false</item>
+        <!--<item name="android:windowFullscreen">true</item>-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Base.OverflowMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">5dp</item>
+        <item name="android:dropDownHorizontalOffset">0dp</item>
+    </style>
+
+    <style name="Common_Text_Toolbar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/size_primary_toolbar_text</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Toolbar_Small">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/size_primary_toolbar_text_small</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Fill_Green_Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_fill_green_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Fill_Green_Corner_Button">
+        <item name="android:textColor">@color/color_primary_btn_text</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_fill_corner_green_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Fill_Green_Sub_Corner_Button">
+        <item name="android:textColor">@color/color_primary_toolbar_text</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_fill_sub_corner_green_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Fill_Gray_Sub_Corner_Button">
+        <item name="android:textColor">@color/color_primary_text_normal</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_fill_sub_corner_gray_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Fill_Blue_Sub_Corner_Button">
+        <item name="android:textColor">@color/color_primary_btn_text</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_fill_sub_corner_blue_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Fill_Blue_Common_Corner_Button">
+        <item name="android:textColor">@color/color_primary_btn_text</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_fill_common_corner_blue_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Fill_Black_Common_Corner_Button">
+        <item name="android:textColor">@color/color_primary_btn_text</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_fill_common_corner_black_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Fill_Red_Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_fill_red_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Fill_Red_Button_Gradient">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_fill_red_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Empty_Red_Button">
+        <item name="android:textColor">@drawable/color_common_empty_red_text</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:background">@drawable/bg_common_red_empty_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Highlight_Small">
+        <item name="android:textColor">@color/color_primary_text_highlight</item>
+        <item name="android:textSize">@dimen/size_primary_small_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_highlight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Highlight_Normal">
+        <item name="android:textColor">@color/color_primary_text_highlight</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_highlight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Highlight_Super">
+        <item name="android:textColor">@color/color_primary_text_highlight</item>
+        <item name="android:textSize">@dimen/size_primary_super_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_highlight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Highlight_Big">
+        <item name="android:textColor">@color/color_primary_text_highlight</item>
+        <item name="android:textSize">@dimen/size_primary_big_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_highlight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Small">
+        <item name="android:textColor">@color/color_primary_text_normal</item>
+        <item name="android:textSize">@dimen/size_primary_small_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Normal">
+        <item name="android:textColor">@color/color_primary_text_normal</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Big">
+        <item name="android:textColor">@color/color_primary_text_normal</item>
+        <item name="android:textSize">@dimen/size_primary_big_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Super">
+        <item name="android:textColor">@color/color_primary_text_normal</item>
+        <item name="android:textSize">@dimen/size_primary_super_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Green_Normal">
+        <item name="android:textColor">@color/color_primary_green_normal</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:textColorHint">@color/color_primary_green_normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Green_Big">
+        <item name="android:textColor">@color/color_primary_green_normal</item>
+        <item name="android:textSize">@dimen/size_primary_big_text</item>
+        <item name="android:textColorHint">@color/color_primary_green_normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Text_Green_Super">
+        <item name="android:textColor">@color/color_primary_green_normal</item>
+        <item name="android:textSize">@dimen/size_primary_super_text</item>
+        <item name="android:textColorHint">@color/color_primary_green_normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+    <style name="Common_Text_Red_Super">
+        <item name="android:textColor">@color/color_primary_red_normal</item>
+        <item name="android:textSize">@dimen/size_primary_super_text</item>
+        <item name="android:textColorHint">@color/color_primary_green_normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Common_Edit_Normal">
+        <item name="android:textColor">@color/color_primary_text_highlight</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_normal</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textCursorDrawable">@color/color_primary_text_highlight</item>
+    </style>
+
+    <style name="Common_Edit_Empty_Normal">
+        <item name="android:textColor">@color/color_primary_text_highlight</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_normal</item>
+        <item name="android:background">@drawable/bg_common_empty_edit</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textCursorDrawable">@color/color_primary_text_highlight</item>
+    </style>
+
+    <style name="Common_Edit_Red_Empty_Normal">
+        <item name="android:textColor">@color/color_primary_red_normal</item>
+        <item name="android:textSize">@dimen/size_primary_normal_text</item>
+        <item name="android:textColorHint">@color/color_primary_text_normal</item>
+        <item name="android:background">@drawable/bg_common_red_empty_edit</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textCursorDrawable">@color/color_primary_text_highlight</item>
+    </style>
+
+    <style name="anim_popup_bottom">
+        <item name="android:windowEnterAnimation">@anim/popup_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_bottom_out</item>
+    </style>
+
+    <style name="SwitchTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="colorControlActivated">@color/color_primary_switch_background</item>
+        <item name="colorSwitchThumbNormal">@color/color_primary_switch_background</item>
+        <item name="android:colorForeground">@color/color_primary_blue_normal</item>
+    </style>
+
+
+    <style name="Dialog_NoTitle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="AnimationPickerFade" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_fade_out</item>
+    </style>
+
+    <style name="Left_In_Out_Animation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowExitAnimation">@anim/slide_left_out</item>
+        <item name="android:windowEnterAnimation">@anim/slide_left_in</item>
+    </style>
+
+    <style name="Right_In_Out_Animation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowExitAnimation">@anim/slide_right_out</item>
+        <item name="android:windowEnterAnimation">@anim/slide_right_in</item>
+    </style>
+
+    <style name="Top_Right_In_Out_Animation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowExitAnimation">@anim/slide_right_top_out</item>
+        <item name="android:windowEnterAnimation">@anim/slide_right_top_in</item>
+    </style>
+
+    <style name="Dialog_NoTitle_Fade_in" parent="Dialog_NoTitle">
+        <item name="android:windowAnimationStyle">@style/AnimationPickerFade</item>
+    </style>
+
+    <style name="Dialog_Right_In_Out" parent="Dialog_NoTitle">
+        <item name="android:windowAnimationStyle">@style/Right_In_Out_Animation</item>
+    </style>
+
+    <style name="Dialog_Top_Right_In_Out" parent="Dialog_NoTitle">
+        <item name="android:windowAnimationStyle">@style/Top_Right_In_Out_Animation</item>
+    </style>
+
+    <style name="Dialog_Left_In_Out" parent="Dialog_NoTitle">
+        <item name="android:windowAnimationStyle">@style/Left_In_Out_Animation</item>
+    </style>
+
+    <style name="Bottom_In_Out_Animation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowExitAnimation">@anim/slide_bottom_out</item>
+        <item name="android:windowEnterAnimation">@anim/slide_bottom_in</item>
+    </style>
+
+    <style name="Dialog_Bottom_In_Out" parent="Dialog_NoTitle">
+        <item name="android:windowAnimationStyle">@style/Bottom_In_Out_Animation</item>
+    </style>
+
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" tools:keep="@drawable/bg_common_empty_corner_btn">
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="40dp" />
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1px" android:color="@color/color_primary_green_focusable" />
+        </shape>
+    </item>
+
+    <item>
+
+        <shape android:shape="rectangle">
+            <corners android:radius="40dp" />
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1px" android:color="@color/color_primary_green_normal" />
+        </shape>
+
+    </item>
+
+</selector>

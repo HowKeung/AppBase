@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AverageHeightListView">
+        <attr name="maxShowItem" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="AdaptWidthListView">
+        <attr name="maxHeight" format="dimension|reference"/>
+    </declare-styleable>
+
+</resources>

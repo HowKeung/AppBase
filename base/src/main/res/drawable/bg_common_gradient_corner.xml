@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="0"
+        android:centerColor="@color/color_primary_toolbar_center"
+        android:endColor="@color/color_primary_toolbar_end"
+        android:startColor="@color/color_primary_toolbar_start" />
+
+    <corners android:radius="@dimen/dimens_primary_list_margin" />
+</shape>

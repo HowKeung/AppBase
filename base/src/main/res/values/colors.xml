@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- main light color -->
+    <color name="color_primary_text_highlight">#212122</color>
+    <color name="color_primary_text_normal">#6A6E8D</color>
+    <color name="color_primary_text_enable">#B1B6CE</color>
+    <color name="color_primary_green_normal">#3BB97D</color>
+    <color name="color_primary_green_focusable">#16d477</color>
+    <color name="color_primary_btn_enable">#999999</color>
+    <color name="color_primary_red_normal">#D0021B</color>
+    <color name="color_primary_red_focusable">#d16001</color>
+    <color name="color_primary_gray_focusable">#B1B6CE</color>
+    <color name="color_primary_gray_normal">#eeeeee</color>
+
+    <color name="color_primary_btn_text">#ffffff</color>
+
+    <color name="color_primary_background">#F4F4F4</color>
+    <color name="color_primary_item_normal">#ffffff</color>
+    <color name="color_primary_item_focusable">#f2f7f7</color>
+    <color name="color_primary_divider">#E6E6E6</color>
+    <color name="color_primary_edit_normal">#eaeaea</color>
+    <color name="color_primary_edit_focusable">#f75c53</color>
+    <color name="color_primary_edit_enable">#cccccc</color>
+    <color name="color_primary_tab_normal">#6A6E8D</color>
+    <color name="color_primary_tab_focusable">#4A90E2</color>
+
+    <color name="color_primary_indicator_normal">#05020f</color>
+    <color name="color_primary_toast_background">#999999</color>
+    <color name="color_primary_window_background">#30000000</color>
+    <color name="color_primary_toolbar_background">#db3f36</color>
+    <color name="color_primary_toolbar_start">#61C99D</color>
+    <color name="color_primary_toolbar_center">#33AFB5</color>
+    <color name="color_primary_toolbar_end">#0088CC</color>
+    <color name="color_primary_toolbar_text">#ffffff</color>
+
+    <color name="color_primary_blue_normal">#0088CC</color>
+    <color name="color_primary_blue_focusable">#0088CC</color>
+    <color name="color_primary_yellow_normal">#F7CD76</color>
+    <color name="color_primary_progress_background">#F4F4F4</color>
+    <color name="color_primary_yellow_focusable">#FDA403</color>
+
+    <color name="color_primary_switch_background">#333333</color>
+    <color name="color_primary_switch_foreground">#0088CC</color>
+</resources>

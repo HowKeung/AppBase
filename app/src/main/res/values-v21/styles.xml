@@ -1,0 +1,12 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeFullScreen" parent="AppTheme">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
+        <!-- 状态栏可显示 -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!-- 导航条可显示内容 -->
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+    </style>
+</resources>
