@@ -1,31 +1,30 @@
 package com.jungel.base.adapter;
 
 import android.app.Activity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.jungel.base.bean.CommonTabData;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-
-import me.yokeyword.fragmentation.SupportFragment;
 
 public class BaseFragmentAdapter extends FragmentPagerAdapter {
 
-    protected Activity mContext;
-    protected SupportFragment[] mFragments = {};
+    protected WeakReference<Activity> mContext;
+    protected Fragment[] mFragments = {};
 
     protected String[] mTitles;
 
     public BaseFragmentAdapter(Activity context, FragmentManager fm) {
         super(fm);
-        this.mContext = context;
+        this.mContext = new WeakReference<>(context);
     }
 
     @Override
-    public SupportFragment getItem(int position) {
+    public Fragment getItem(int position) {
         return mFragments[position];
     }
 
@@ -47,9 +46,11 @@ public class BaseFragmentAdapter extends FragmentPagerAdapter {
         return data;
     }
 
-    public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
-        for (SupportFragment fragment : mFragments) {
-            fragment.onFragmentResult(requestCode, resultCode, data);
-        }
+    protected Activity getContext(){
+        return mContext.get();
+    }
+
+    protected int getColor(int resId) {
+        return mContext.get().getResources().getColor(resId);
     }
 }

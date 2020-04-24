@@ -8,12 +8,6 @@ import android.support.annotation.DrawableRes;
 
 public class MenuData {
 
-    public static final int MENU_ID_LOGOUT = 1;
-    public static final int MENU_ID_LOGIN = 2;
-    public static final int MENU_ID_TRANSFER_IN = 3;// 资产转入
-    public static final int MENU_ID_TRANSFER_OUT = 4;// 资产转出
-    public static final int MENU_ID_MY_FUND = 5;// 我的理财
-
     private int id;
     private String content;
 

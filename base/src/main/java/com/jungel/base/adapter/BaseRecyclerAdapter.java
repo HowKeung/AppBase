@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.jungel.base.widget.ListItemAnimator;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +22,14 @@ import java.util.List;
 public abstract class BaseRecyclerAdapter<VDB extends ViewDataBinding, T> extends
         RecyclerView.Adapter<BaseRecyclerAdapter.ViewHolder<VDB>> {
 
-    protected Context mContext;
+    protected WeakReference<Context> mContext;
     protected List<T> mDataList;
     protected OnItemClickListener mOnItemClickListener;
 
     protected ListItemAnimator mItemAnimator;
 
     public BaseRecyclerAdapter(Context context) {
-        mContext = context;
+        mContext = new WeakReference<>(context);
         mDataList = new ArrayList<>();
         mItemAnimator = new ListItemAnimator();
     }
@@ -44,7 +45,7 @@ public abstract class BaseRecyclerAdapter<VDB extends ViewDataBinding, T> extend
 
     @Override
     public ViewHolder<VDB> onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewDataBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext),
+        ViewDataBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext.get()),
                 getLayoutRes(), parent, false);
         ViewHolder<VDB> holder = new ViewHolder<>(dataBinding.getRoot());
         holder.setDataBinding((VDB) dataBinding);
@@ -95,6 +96,9 @@ public abstract class BaseRecyclerAdapter<VDB extends ViewDataBinding, T> extend
     }
 
     public void setData(List<T> wallets) {
+        if (mDataList != null && mDataList.size() > 0) {
+            mDataList.clear();
+        }
         this.mDataList = wallets;
         notifyDataSetChanged();
     }
@@ -104,6 +108,7 @@ public abstract class BaseRecyclerAdapter<VDB extends ViewDataBinding, T> extend
             mDataList = new ArrayList<>();
         }
         mDataList.addAll(data);
+        notifyDataSetChanged();
     }
 
     public void addData(T data) {
@@ -114,14 +119,22 @@ public abstract class BaseRecyclerAdapter<VDB extends ViewDataBinding, T> extend
         notifyDataSetChanged();
     }
 
+    public void removeData(int index) {
+        if (mDataList == null) {
+            mDataList = new ArrayList<>();
+        }
+        mDataList.remove(index);
+        notifyDataSetChanged();
+    }
+
     public void clearData() {
         if (mDataList != null) {
             mDataList.clear();
         }
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(int position, Object data);
+    public interface OnItemClickListener<T> {
+        void onItemClick(int position, T data);
     }
 
     public static class ViewHolder<VDB> extends RecyclerView.ViewHolder {
@@ -139,5 +152,13 @@ public abstract class BaseRecyclerAdapter<VDB extends ViewDataBinding, T> extend
         public ViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    protected Context getContext() {
+        return mContext.get();
+    }
+
+    protected int getColor(int resId) {
+        return mContext.get().getResources().getColor(resId);
     }
 }

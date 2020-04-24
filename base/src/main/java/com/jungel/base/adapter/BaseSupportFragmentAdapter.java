@@ -1,30 +1,39 @@
 package com.jungel.base.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 
+import com.jungel.base.fragment.BaseSupportFragment;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
-public class BaseSupportFragmentAdapter<T extends SupportFragment> extends FragmentPagerAdapter {
+public class BaseSupportFragmentAdapter<T extends ViewPager> extends FragmentPagerAdapter {
 
-    protected Activity mContext;
-    protected T[] mFragments;
+    protected WeakReference<Activity> mContext;
+    protected SupportFragment[] mFragments;
 
     protected String[] mTitles;
 
-    public BaseSupportFragmentAdapter(Activity context, FragmentManager fm) {
+    protected T mViewPager;
+
+    public BaseSupportFragmentAdapter(Activity context, FragmentManager fm, T viewPager) {
         super(fm);
-        this.mContext = context;
+        mContext = new WeakReference<>(context);
+        mViewPager = viewPager;
     }
 
     @Override
-    public T getItem(int position) {
+    public SupportFragment getItem(int position) {
         return mFragments[position];
     }
 
@@ -50,42 +59,65 @@ public class BaseSupportFragmentAdapter<T extends SupportFragment> extends Fragm
         }
     }
 
-    public void setUserVisibleHint(boolean isVisibleToUser) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         for (SupportFragment fragment : mFragments) {
-            fragment.setUserVisibleHint(isVisibleToUser);
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        for (SupportFragment fragment : mFragments) {
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        mFragments[mViewPager.getCurrentItem()].setUserVisibleHint(isVisibleToUser);
+        for (int i = 0; i < mFragments.length; i++) {
+            if (i != mViewPager.getCurrentItem()) {
+                SupportFragment fragment = mFragments[i];
+                if (fragment instanceof BaseSupportFragment) {
+                    if (!((BaseSupportFragment) fragment).mIsOnBind) {
+                        fragment.setUserVisibleHint(isVisibleToUser);
+                    }
+                }
+            }
         }
     }
 
     public void onHiddenChanged(boolean hidden) {
-        for (SupportFragment fragment : mFragments) {
-            fragment.onHiddenChanged(hidden);
-        }
+        mFragments[mViewPager.getCurrentItem()].onHiddenChanged(hidden);
     }
 
 
     public void onResume() {
-        for (SupportFragment fragment : mFragments) {
-            fragment.onResume();
-        }
+        mFragments[mViewPager.getCurrentItem()].onResume();
     }
 
 
     public void onPause() {
-        for (SupportFragment fragment : mFragments) {
-            fragment.onPause();
-        }
+        mFragments[mViewPager.getCurrentItem()].onPause();
     }
 
 
     public void onStop() {
-        for (SupportFragment fragment : mFragments) {
-            fragment.onStop();
-        }
+        mFragments[mViewPager.getCurrentItem()].onStop();
     }
 
     public void onSupportVisible() {
-        for (SupportFragment fragment : mFragments) {
-            fragment.onSupportVisible();
-        }
+        mFragments[mViewPager.getCurrentItem()].onSupportVisible();
+    }
+
+    public T getViewPager() {
+        return mViewPager;
+    }
+
+    protected Activity getContext() {
+        return mContext.get();
+    }
+
+    protected int getColor(int resId) {
+        return mContext.get().getResources().getColor(resId);
     }
 }

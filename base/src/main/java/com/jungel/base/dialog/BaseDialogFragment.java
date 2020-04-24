@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -102,6 +103,13 @@ public abstract class BaseDialogFragment<VDB extends ViewDataBinding> extends Di
             style = STYLE_NO_FRAME;
         }
         setStyle(style, theme);
+        ExEventBus.getDefault().getDefaultEventBus().register(this);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        LogUtils.d(getClass().getSimpleName() + " onAttach");
+        super.onAttach(context);
         _mActivity = getActivity();
         ExEventBus.getDefault().getDefaultEventBus().register(this);
     }
@@ -137,7 +145,8 @@ public abstract class BaseDialogFragment<VDB extends ViewDataBinding> extends Di
                     gravity = Gravity.TOP | Gravity.RIGHT;
                     height = WindowManager.LayoutParams.WRAP_CONTENT;
                     width = WindowManager.LayoutParams.WRAP_CONTENT;
-                } else if (getTheme() == R.style.Dialog_NoTitle) {
+                } else if (getTheme() == R.style.Dialog_NoTitle
+                        || getTheme() == R.style.Dialog_NoTitle_Fade_in) {
                     gravity = Gravity.CENTER;
                     height = WindowManager.LayoutParams.WRAP_CONTENT;
                 }
@@ -410,6 +419,11 @@ public abstract class BaseDialogFragment<VDB extends ViewDataBinding> extends Di
         return isDismiss;
     }
 
+    public void setCanceledOnTouchOutside(boolean cancelable) {
+        if (getDialog() != null)
+            getDialog().setCanceledOnTouchOutside(cancelable);
+    }
+
     public void updateUI(Runnable runnable) {
         if (runnable != null) {
             mHandler.post(runnable);
@@ -487,5 +501,29 @@ public abstract class BaseDialogFragment<VDB extends ViewDataBinding> extends Di
                 }
             }
         });
+    }
+
+    protected void setSystemUIVisible(boolean show) {
+        if (show) {
+            int uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            uiFlags |= 0x00001000;
+            getDialog().getWindow().getDecorView().setSystemUiVisibility(uiFlags);
+        } else {
+            //隐藏虚拟按键，并且全屏
+            if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+                View v = getDialog().getWindow().getDecorView();
+                v.setSystemUiVisibility(View.GONE);
+            } else if (Build.VERSION.SDK_INT >= 19) {
+                //for new api versions.
+                View decorView = getDialog().getWindow().getDecorView();
+                int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+                decorView.setSystemUiVisibility(uiOptions);
+            }
+        }
+    }
+
+    protected int getColor(int resId) {
+        return _mActivity.getResources().getColor(resId);
     }
 }

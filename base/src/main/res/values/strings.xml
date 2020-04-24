@@ -4,4 +4,38 @@
     <string name="unknown">未知</string>
     <string name="find_select_browser">选择浏览器</string>
     <string name="please_no_application">没有匹配的程序</string>
+    <string name="text_share_image">分享图片</string>
+    <string name="scanner_qr_code">扫描二维码</string>
+    <string name="select_from_album">相册选择</string>
+    <string name="select_picture">拍照</string>
+    <string name="no_sdcard_can_not_save">未安装SD卡，不能保存文件</string>
+    <string name="save_photo_fail">保存图片失败</string>
+    <string name="no_permissions_to_camera">没有权限将不能打开相机</string>
+    <string name="exit_tips">再按一次退出</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="update">更新</string>
+
+    <string name="request_code_text_again">重新发送</string>
+
+    <string name="click_too_fast">2秒内请勿重复点击</string>
+
+    <string name="find_title_init">加载中</string>
+
+    <string name="hd_agreement_agree_label">我已阅读，并且同意以上服务条款</string>
+    <string name="hd_agreement_continue">继续</string>
+
+    <string name="fund_buy_notice_title">购买协议</string>
+    <string name="fund_privacy_notice_title">隐私条款</string>
+    <string name="login_server_notice_title">用户协议</string>
+
+    <string name="complete">完成</string>
+    <string name="minute_before">分钟前</string>
+    <string name="just_now">刚刚</string>
+
+    <string name="day">天</string>
+    <string name="hour">时</string>
+    <string name="min">分</string>
+    <string name="second">秒</string>
+
 </resources>

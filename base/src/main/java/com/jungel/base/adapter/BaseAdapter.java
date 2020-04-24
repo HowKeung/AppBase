@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -16,10 +17,11 @@ import java.util.List;
 
 public abstract class BaseAdapter<VDB extends ViewDataBinding, T> extends android.widget.BaseAdapter {
 
-    protected Context mContext;
+    protected WeakReference<Context> mContext;
+    protected OnItemClickListener mOnItemClickListener;
 
     public BaseAdapter(Context activity) {
-        mContext = activity;
+        mContext = new WeakReference<>(activity);
     }
 
     protected List<T> mDataList;
@@ -40,7 +42,7 @@ public abstract class BaseAdapter<VDB extends ViewDataBinding, T> extends androi
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         VDB dataBinding = null;
         if (convertView == null) {
             dataBinding = DataBindingUtil.inflate(
@@ -52,7 +54,14 @@ public abstract class BaseAdapter<VDB extends ViewDataBinding, T> extends androi
         }
         final T tempData = mDataList.get(position);
         onBind(position, dataBinding, tempData);
-
+        dataBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(position, tempData);
+                }
+            }
+        });
         return convertView;
     }
 
@@ -80,5 +89,21 @@ public abstract class BaseAdapter<VDB extends ViewDataBinding, T> extends androi
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener<T> {
+        void onItemClick(int position, T data);
+    }
+
+    protected Context getContext() {
+        return mContext.get();
+    }
+
+    protected int getColor(int resId) {
+        return mContext.get().getResources().getColor(resId);
     }
 }

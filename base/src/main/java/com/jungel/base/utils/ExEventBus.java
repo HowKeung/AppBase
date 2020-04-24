@@ -48,11 +48,14 @@ public class ExEventBus {
     public static class MessageEvent {
 
         public static final int EVENT_TYPE_JUMP_TRADE = 1;
+        public static final int EVENT_TYPE_CHANGE_LANGUAGE = 3;
         public static final int EVENT_TYPE_ON_LOGIN = 2;
 
+        public static final int EVENT_TYPE_NET_CHANGE = 7;
         public static final int EVENT_TYPE_REQUEST_UPDATE_WALLET = 3;
 
         public static final int EVENT_TYPE_UPDATE_USER_INFO = 12;
+		public static final int EVENT_TYPE_LOGIN_OVERDUE = 13;
         public static final int EVENT_TYPE_RELOGIN = 13;
         public static final int EVENT_TYPE_FINISH_MAIN_ACTIVITY = 14;
 

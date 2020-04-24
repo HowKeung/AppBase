@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.Window;
@@ -20,12 +21,25 @@ import com.jungel.base.R;
 import com.jungel.base.activity.BaseApplication;
 import com.jungel.base.widget.CToast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
+import java.util.Collection;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 public class AppUtil {
+    private static final String KEY_EMUI_VERSION_CODE = "ro.build.version.emui";
+    private static final String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
+    private static final String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
+    private static final String KEY_MIUI_INTERNAL_STORAGE = "ro.miui.internal.storage";
+
     /**
      * 获取本地软件版本号
      */
@@ -141,9 +155,9 @@ public class AppUtil {
         }
     }
 
-    // 是否是小米手机
+    // 是否是小米手机/系统
     public static boolean isXiaomi() {
-        return "Xiaomi".equalsIgnoreCase(Build.MANUFACTURER);
+        return "Xiaomi".equalsIgnoreCase(Build.MANUFACTURER) || isMIUI();
     }
 
     // 设置小米状态栏
@@ -263,7 +277,7 @@ public class AppUtil {
                 window.setAttributes(lp);
                 result = true;
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
         return result;
@@ -312,8 +326,109 @@ public class AppUtil {
         return result;
     }
 
-    // 是否是小米手机
+    // 是否是魅族系统/手机
     public static boolean isMeizu() {
-        return "meizu".equalsIgnoreCase(Build.MANUFACTURER);
+        return "meizu".equalsIgnoreCase(Build.MANUFACTURER) || isFlyme();
+    }
+
+    public static boolean isFlyme() {
+        try {
+            final Method method = Build.class.getMethod("hasSmartBar");
+            return method != null;
+        } catch (final Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 华为系统
+     *
+     * @return
+     */
+    public static boolean isEMUI() {
+        return isPropertiesExist(KEY_EMUI_VERSION_CODE);
+    }
+
+    /**
+     * 小米系统
+     *
+     * @return
+     */
+    public static boolean isMIUI() {
+        return isPropertiesExist(KEY_MIUI_VERSION_CODE, KEY_MIUI_VERSION_NAME,
+                KEY_MIUI_INTERNAL_STORAGE);
+    }
+
+    private static boolean isPropertiesExist(String... keys) {
+        if (keys == null || keys.length == 0) {
+            return false;
+        }
+        try {
+            BuildProperties properties = BuildProperties.newInstance();
+            for (String key : keys) {
+                String value = properties.getProperty(key);
+                if (value != null)
+                    return true;
+            }
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private static final class BuildProperties {
+
+        private final Properties properties;
+
+        private BuildProperties() throws IOException {
+            properties = new Properties();
+            // 读取系统配置信息build.prop类
+            properties.load(new FileInputStream(new File(Environment.getRootDirectory(), "build" +
+                    ".prop")));
+        }
+
+        public boolean containsKey(final Object key) {
+            return properties.containsKey(key);
+        }
+
+        public boolean containsValue(final Object value) {
+            return properties.containsValue(value);
+        }
+
+        public Set<Map.Entry<Object, Object>> entrySet() {
+            return properties.entrySet();
+        }
+
+        public String getProperty(final String name) {
+            return properties.getProperty(name);
+        }
+
+        public String getProperty(final String name, final String defaultValue) {
+            return properties.getProperty(name, defaultValue);
+        }
+
+        public boolean isEmpty() {
+            return properties.isEmpty();
+        }
+
+        public Enumeration<Object> keys() {
+            return properties.keys();
+        }
+
+        public Set<Object> keySet() {
+            return properties.keySet();
+        }
+
+        public int size() {
+            return properties.size();
+        }
+
+        public Collection<Object> values() {
+            return properties.values();
+        }
+
+        public static BuildProperties newInstance() throws IOException {
+            return new BuildProperties();
+        }
     }
 }

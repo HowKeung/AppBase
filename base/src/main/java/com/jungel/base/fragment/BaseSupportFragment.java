@@ -12,18 +12,23 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.jungel.base.R;
 import com.jungel.base.utils.AppUtil;
 import com.jungel.base.utils.CLgUtil;
 import com.jungel.base.utils.ExEventBus;
+import com.jungel.base.utils.LogUtils;
 import com.jungel.base.widget.CToast;
 import com.jungel.base.window.LoadingWindow;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import me.yokeyword.fragmentation.ISupportFragment;
+import java.lang.reflect.Field;
+import java.util.Date;
+
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
@@ -37,20 +42,42 @@ public abstract class BaseSupportFragment<VDB extends ViewDataBinding> extends S
     protected boolean isAlive = true;
     private static final int INVALID_VAL = -1;//顶部颜色默认值
     private boolean mIsLoadingShowing = false;
-
-    protected abstract void onBind();
+    protected volatile boolean mIsVisible = false;
+    private long mLastBackTime = 0;
+    private int mLastBackTimes = 0;
+    public boolean mIsOnBind = false;
 
     @LayoutRes
     protected abstract int getLayoutRes();
+
+    protected abstract void onBind();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        isAlive = true;
         registerListener();
         mDataBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
-        onBind();
         return attachToSwipeBack(mDataBinding.getRoot());
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        if (getParentFragment() != null && !mIsOnBind && mDataBinding != null) {
+            onBind();
+            mIsOnBind = true;
+        }
+    }
+
+    @Override
+    public void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
+        if (getParentFragment() == null && !mIsOnBind && mDataBinding != null) {
+            onBind();
+            mIsOnBind = true;
+        }
     }
 
     public void updateUI(Runnable runnable) {
@@ -70,6 +97,7 @@ public abstract class BaseSupportFragment<VDB extends ViewDataBinding> extends S
         if (ExEventBus.getDefault().getDefaultEventBus().isRegistered(this)) {
             ExEventBus.getDefault().getDefaultEventBus().unregister(this);
         }
+        isAlive = false;
         super.onDestroy();
     }
 
@@ -102,6 +130,15 @@ public abstract class BaseSupportFragment<VDB extends ViewDataBinding> extends S
 
     @Subscribe
     public void onEvent(ExEventBus.MessageEvent event) {
+        switch (event.getType()) {
+            case ExEventBus.MessageEvent.EVENT_TYPE_LOGIN_OVERDUE:
+                _mActivity.finish();
+                break;
+        }
+    }
+
+    @Subscribe
+    public void onEvent(ExEventBus.MessageFragment event) {
 
     }
 
@@ -156,8 +193,8 @@ public abstract class BaseSupportFragment<VDB extends ViewDataBinding> extends S
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         isAlive = false;
+        super.onDestroyView();
     }
 
     protected View findViewById(int viewId) {
@@ -168,19 +205,90 @@ public abstract class BaseSupportFragment<VDB extends ViewDataBinding> extends S
         if (!ExEventBus.getDefault().getDefaultEventBus().isRegistered(this)) {
             ExEventBus.getDefault().getDefaultEventBus().register(this);
         }
-        if (getParentFragment() == null && getPreFragment() != null) {
-            setSwipeBackEnable(true);
-            getSwipeBackLayout().setEnableGesture(true);
-        } else {
-            setSwipeBackEnable(false);
-            getSwipeBackLayout().setEnableGesture(false);
+        //        if (getParentFragment() == null && getPreFragment() != null) {
+        //            setSwipeBackEnable(true);
+        //            getSwipeBackLayout().setEnableGesture(true);
+        //        } else {
+        setSwipeBackEnable(false);
+        getSwipeBackLayout().setEnableGesture(false);
+        //        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getParentFragment() == null) {
+            LogUtils.d(getClass().getSimpleName() + " onResume : true");
+            mIsVisible = true;
+            visibleToUser();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LogUtils.d(getClass().getSimpleName() + " onPause : false");
+        mIsVisible = false;
+        hideSoftInput();
     }
 
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        initBlackStatusBar();
+        LogUtils.d(getClass().getSimpleName() + " onSupportVisible : true");
+        if (!mIsVisible) {
+            mIsVisible = true;
+            visibleToUser();
+        }
+    }
+
+    @Override
+    public void onSupportInvisible() {
+        super.onSupportInvisible();
+        LogUtils.d(getClass().getSimpleName() + " onSupportInvisible : false");
+        mIsVisible = false;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        LogUtils.d(getClass().getSimpleName() + " onHiddenChanged : " + hidden);
+        if (!mIsVisible && !hidden) {
+            mIsVisible = true;
+            visibleToUser();
+        }
+        if (hidden) {
+            mIsVisible = false;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        LogUtils.d(getClass().getSimpleName() + " setUserVisibleHint : " + isVisibleToUser);
+        if (!mIsVisible && isVisibleToUser) {
+            mIsVisible = true;
+            visibleToUser();
+        }
+        if (!isVisibleToUser) {
+            mIsVisible = false;
+        }
+    }
+
+    protected void visibleToUser() {
+        LogUtils.d("visibleToUser  : true");
+        initLightStatusBar();
+        registerAgain();
+    }
+
+    protected void registerAgain() {
+        if (!ExEventBus.getDefault().getDefaultEventBus().isRegistered(this)) {
+            ExEventBus.getDefault().getDefaultEventBus().register(this);
+        }
+    }
+
+    protected boolean isVisibleToUser() {
+        return mIsVisible;
     }
 
     protected void initLightStatusBar() {
@@ -196,12 +304,13 @@ public abstract class BaseSupportFragment<VDB extends ViewDataBinding> extends S
                     _mActivity.getWindow().getDecorView().setSystemUiVisibility(
                             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View
                                     .SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                    //_mActivity.getWindow().setStatusBarColor(Color.WHITE);
                 }
             }
         }
     }
 
-    private void initBlackStatusBar() {
+    protected void initBlackStatusBar() {
         if (_mActivity != null) {
             if (AppUtil.isXiaomi()) {
                 AppUtil.MIUISetStatusBarLightMode(_mActivity, false);
@@ -225,6 +334,16 @@ public abstract class BaseSupportFragment<VDB extends ViewDataBinding> extends S
             CLgUtil.d("getStatusBarHeight : " + result);
         }
         return result;
+    }
+
+    protected int getTabHeight() {
+        return _mActivity.getResources().getDimensionPixelSize(R.dimen
+                .size_primary_main_tab_height);
+    }
+
+    protected int getTitleHeight() {
+        return _mActivity.getResources().getDimensionPixelSize(R.dimen
+                .size_primary_toolbar_height);
     }
 
     protected int getColor(int resId) {
@@ -265,5 +384,25 @@ public abstract class BaseSupportFragment<VDB extends ViewDataBinding> extends S
                 decorView.setSystemUiVisibility(uiOptions);
             }
         }
+    }
+
+    protected void exitApp() {
+        mLastBackTimes++;
+        long current = new Date().getTime();
+
+        if (current - mLastBackTime > 1000) {
+            mLastBackTimes = 1;
+        }
+
+        if (mLastBackTimes == 1) {
+            onMessage(getString(R.string.exit_tips));
+        } else {
+            if (current - mLastBackTime <= 1000) {
+                _mActivity.finish();
+            } else {
+                mLastBackTimes = 0;
+            }
+        }
+        mLastBackTime = current;
     }
 }

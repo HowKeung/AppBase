@@ -175,6 +175,17 @@ public abstract class BaseTitleFragment<VDB extends ViewDataBinding> extends Bas
         }
     }
 
+
+    protected void setTitleColor(int colorId) {
+        if (mTitleText != null) {
+            if (colorId > 0) {
+                mTitleText.setTextColor(getColor(colorId));
+            } else {
+                mTitleText.setTextColor(colorId);
+            }
+        }
+    }
+
     protected void setTitleIcon(int imageId) {
         if (mTitleImage != null && imageId > 0) {
             mTitleImage.setImageResource(imageId);
@@ -336,11 +347,15 @@ public abstract class BaseTitleFragment<VDB extends ViewDataBinding> extends Bas
     }
 
     protected void onBackClick() {
-        pop();
+        if (getPreFragment() == null) {
+            _mActivity.finish();
+        } else {
+            pop();
+        }
     }
 
     protected void onForwardClick() {
-        if (mForwardLayout != null) {
+        if (mForwardLayout != null && mMenuWindow != null) {
             mMenuWindow.show(mForwardLayout);
         }
     }
@@ -352,12 +367,13 @@ public abstract class BaseTitleFragment<VDB extends ViewDataBinding> extends Bas
 
     @Override
     public void onSupportVisible() {
-        if (_mActivity != null) {
-            //            LogUtils.d("setUserVisibleHint -> BaseTitleFragment");
-            //            setStatusBar(R.drawable.bg_common_gradient);
-            _mActivity.getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
+        super.onSupportVisible();
+        //        if (_mActivity != null) {
+        //            LogUtils.d("setUserVisibleHint -> BaseTitleFragment");
+        //            setStatusBar(R.drawable.bg_common_gradient);
+        //            _mActivity.getWindow().getDecorView().setSystemUiVisibility(
+        //                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        //        }
     }
 
     protected void setTitleLayoutBackground(int resId) {
